@@ -32,6 +32,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import Image from 'next/image';
 
 // Local implementation for IPFS functionality
 async function uploadToIPFS(file: File): Promise<string> {
@@ -237,11 +238,14 @@ export function CreatePropertyForm() {
               />
               {imagePreview ? (
                 <div className='flex flex-col items-center w-full'>
-                  <img
-                    src={imagePreview}
-                    alt='Property Preview'
-                    className='max-w-full max-h-48 object-contain rounded-md'
-                  />
+                  <div className="relative w-full max-w-md h-48">
+                    <Image
+                      src={imagePreview}
+                      alt="Property preview"
+                      fill
+                      className="object-contain rounded-md"
+                    />
+                  </div>
                   <p className='text-sm text-muted-foreground mt-2'>
                     Click to change image
                   </p>
