@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -20,12 +22,23 @@ interface PropertyCardProps {
   isSelected?: boolean;
 }
 
+// Define metadata structure
+interface Metadata {
+  image?: string;
+  data?: {
+    image?: string;
+  };
+  name?: string;
+  description?: string;
+  attributes?: Array<{ trait_type: string; value: string | number }>;
+}
+
 const convertIPFSToCDN = (ipfsUrl: string): string => {
   const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID;
   return ipfsUrl.replace('ipfs://', `https://${clientId}.ipfscdn.io/ipfs/`);
 };
 
-const fetchMetadataFromIPFS = async (ipfsUri: string): Promise<any> => {
+const fetchMetadataFromIPFS = async (ipfsUri: string): Promise<Metadata | null> => {
   try {
     const url = convertIPFSToCDN(ipfsUri);
     const response = await fetch(url);
@@ -107,7 +120,7 @@ export const PropertyCard = ({
       {!imageError && imageUrl ? (
         <img
           src={imageUrl}
-          alt={property.propertyAddress}
+          alt={property.propertyAddress || 'Property image'}
           className='h-[140px] w-full object-cover'
           onError={() => setImageError(true)}
         />
