@@ -35,11 +35,7 @@ interface Metadata {
 }
 
 // Define error type
-interface ApiError {
-  response?: {
-    status: number;
-    data: unknown;
-  };
+interface FetchError {
   message?: string;
 }
 
@@ -93,7 +89,8 @@ export const PropertyCard = ({
           setImageUrl(property.imageURI);
         }
       } catch (error) {
-        console.error('Error processing imageURI:', error);
+        const err = error as FetchError;
+        console.error('Error processing imageURI:', err.message);
       } finally {
         setIsLoadingMetadata(false);
       }
@@ -131,7 +128,7 @@ export const PropertyCard = ({
         <div className="relative h-[140px] w-full">
           <Image
             src={imageUrl}
-            alt={property.propertyAddress || 'Property image'}
+            alt={`Property at ${property.propertyAddress || 'unknown location'}`}
             fill
             className="object-cover"
             onError={() => setImageError(true)}
