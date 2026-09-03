@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
 
-import { Image, RefreshCw } from 'lucide-react';
+import { Image as ImageIcon, RefreshCw } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
 import type { Property } from '../engine/GetPropertiesUtils';
 import { getAllProperties } from '../engine/GetPropertiesUtils';
@@ -66,7 +66,7 @@ export function PropertyGrid() {
     <Card className='p-6 mt-6'>
       <div className='flex items-center justify-between mb-6'>
         <div className='flex items-center gap-2'>
-          <Image className='w-7 h-7 text-primary' />
+          <ImageIcon className='w-7 h-7 text-primary' />
           <h2 className='text-2xl font-semibold'>Real Estate Properties</h2>
         </div>
 
