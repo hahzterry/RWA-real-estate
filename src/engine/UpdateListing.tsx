@@ -16,7 +16,6 @@ export const PropertyState = {
 export type PropertyStateType =
   (typeof PropertyState)[keyof typeof PropertyState];
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const updatePropertyState = async (
   tokenId: number,
   newState: PropertyStateType,
