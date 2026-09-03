@@ -239,6 +239,7 @@ export function CreatePropertyForm() {
               {imagePreview ? (
                 <div className='flex flex-col items-center w-full'>
                   <div className="relative w-full max-w-md h-48">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <Image
                       src={imagePreview}
                       alt="Property preview"
