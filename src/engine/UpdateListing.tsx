@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { prepareContractCall, Engine } from 'thirdweb';
 import { serverWallet } from './ServerWallet';
 import { rwaContract } from './RWAcontract';
@@ -15,6 +14,15 @@ export const PropertyState = {
 
 export type PropertyStateType =
   (typeof PropertyState)[keyof typeof PropertyState];
+
+// Define error type
+interface EngineError {
+  response?: {
+    status: number;
+    data: unknown;
+  };
+  message?: string;
+}
 
 export const updatePropertyState = async (
   tokenId: number,
@@ -64,17 +72,19 @@ export const updatePropertyState = async (
       });
 
       return txHash;
-    } catch (error: any) {
-      console.error('Engine API Error:', error);
+    } catch (error) {
+      const err = error as EngineError;
+      console.error('Engine API Error:', err);
       // Log more detailed error information
-      if (error.response) {
-        console.error('Response status:', error.response.status);
-        console.error('Response data:', error.response.data);
+      if (err.response) {
+        console.error('Response status:', err.response.status);
+        console.error('Response data:', err.response.data);
       }
       throw error;
     }
-  } catch (error: any) {
-    console.error('Contract preparation error:', error);
+  } catch (error) {
+    const err = error as EngineError;
+    console.error('Contract preparation error:', err);
     throw error;
   }
 };
