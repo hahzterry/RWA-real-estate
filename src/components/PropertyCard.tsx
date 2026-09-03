@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { Property } from '../engine/GetPropertiesUtils';
 import { CheckCircle2, Home } from 'lucide-react';
+import Image from 'next/image';
 
 const propertyStates = {
   0: { label: 'Initial Offering', color: 'bg-sky-500' },
@@ -31,6 +32,15 @@ interface Metadata {
   name?: string;
   description?: string;
   attributes?: Array<{ trait_type: string; value: string | number }>;
+}
+
+// Define error type
+interface ApiError {
+  response?: {
+    status: number;
+    data: unknown;
+  };
+  message?: string;
 }
 
 const convertIPFSToCDN = (ipfsUrl: string): string => {
@@ -118,12 +128,15 @@ export const PropertyCard = ({
         )}
 
       {!imageError && imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={property.propertyAddress || 'Property image'}
-          className='h-[140px] w-full object-cover'
-          onError={() => setImageError(true)}
-        />
+        <div className="relative h-[140px] w-full">
+          <Image
+            src={imageUrl}
+            alt={property.propertyAddress || 'Property image'}
+            fill
+            className="object-cover"
+            onError={() => setImageError(true)}
+          />
+        </div>
       ) : (
         <div className='h-[140px] flex items-center justify-center bg-muted'>
           {isLoadingMetadata ? (
@@ -189,7 +202,8 @@ export const PropertyCard = ({
                   'text-primary underline cursor-pointer',
               )}
               title={property.documentHash}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 if (property.documentHash.startsWith('ipfs://')) {
                   const url = convertIPFSToCDN(property.documentHash);
                   window.open(url, '_blank');
